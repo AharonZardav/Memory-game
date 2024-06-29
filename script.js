@@ -4,6 +4,7 @@ const cards = document.querySelectorAll(".memory-card");
 const hariPotterBtn = document.querySelector(".hariPotterBtn");
 const catsBtn = document.querySelector(".catsBtn");
 const dogsBtn = document.querySelector(".dogsBtn");
+const newGameBtn = document.querySelector(".newGameBtn");
 
 // Flag for letting us know if a card already been fliped
 let hasFlippedCard = false;
@@ -86,12 +87,21 @@ function resetBoard() {
   secondCard = null;
 }
 
+function newGame(){
+  cards.forEach(card => {
+    card.classList.remove("flip");
+    card.addEventListener("click", flipCard);
+  })
+  resetBoard();
+  shuffleCards(cards);  
+}
 
 const HariPotter_URL = "https://hp-api.onrender.com/api/characters";
 const Cats_URL = "https://api.thecatapi.com/v1/images/search?limit=10";
 const Dogs_URL = "https://dog.ceo/api/breeds/image/random/6";
 
 function doHariPotterAPI(){
+  newGame();
   fetch(HariPotter_URL)
   .then(response => response.json())
   .then(data => createHariPotterCardsList(data))
@@ -99,6 +109,7 @@ function doHariPotterAPI(){
 }
 
 function doCatsAPI(){
+  newGame()
   fetch(Cats_URL)
   .then(response => response.json())
   .then(data => createCatsCardsList(data))
@@ -106,6 +117,7 @@ function doCatsAPI(){
 }
 
 function doDogsAPI(){
+  newGame()
   fetch(Dogs_URL)
   .then(response => response.json())
   .then(data => createDogsCardsList(data))
@@ -116,8 +128,9 @@ function createHariPotterCardsList(data) {
   // take a 6 random cards from the api server
   let cardsList = [];
   for (let i = 0; i < 6; i++){
-    let random = Math.floor(Math.random() * 21);
-    let card = data[random];
+    // let random = Math.floor(Math.random() * 21);
+    // let card = data[random];
+    let card = data[i];
     cardsList.push(card);
   }
   // update the src of the cards on the board with cards src from api
@@ -165,8 +178,7 @@ function createCatsCardsList(data){
 } 
 
   // This function shuffles the cards
-  // we are calling this fucntion imidietly when the game start and this is why we have () in the end of the function
-  (function() {
+  function shuffleCards(cards){
     cards.forEach((card) => {
       // create a random number between 0 - 11
       let randomPos = Math.floor(Math.random() * 12);
@@ -174,10 +186,13 @@ function createCatsCardsList(data){
       // If we will get the same number we will position it next to the previus card that got the same number
       card.style.order = randomPos;
     });
-  })();
+  }
+
+  shuffleCards(cards);
   
   // we will add a "click" event listener that will trigger flipCard on every card element
   cards.forEach((card) => card.addEventListener("click", flipCard));
+  newGameBtn.addEventListener("click", newGame);
   hariPotterBtn.addEventListener("click",doHariPotterAPI);
   catsBtn.addEventListener("click",doCatsAPI);
   dogsBtn.addEventListener("click",doDogsAPI);

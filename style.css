@@ -71,3 +71,7 @@ button {
   font-weight: bold;
   cursor: pointer;
 }
+
+.newGameBtn{
+  background-color: #1c7ccc;
+}
