@@ -6,7 +6,7 @@
 
 body {
   height: 100vh;
-  display: flex;
+  /* display: flex; */
   background: #060ab2;
 }
 
@@ -28,6 +28,7 @@ body {
   transform-style: preserve-3d;
   transition: transform 0.5s;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 .memory-card:active {
@@ -52,4 +53,21 @@ body {
 
 .front-face {
   transform: rotateY(180deg);
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  height: 40px;
+  width: 100px;
+  border-radius: 30px;
+  margin: 10px;
+  background-color: yellow;
+  font-family: sans-serif;
+  font-weight: bold;
+  cursor: pointer;
 }
